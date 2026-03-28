@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "131891132176",
+    "project_id": "quizappsecurity",
+    "storage_bucket": "quizappsecurity.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:131891132176:android:3879141bebfaca984ed795",
+        "android_client_info": {
+          "package_name": "com.example.quizzapp_security"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0L2blHY8Lar2OPhzIj990yyqwItRKA18"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:131891132176:android:dc8e87c4e14ccb534ed795",
+        "android_client_info": {
+          "package_name": "com.med.quizzappsecurity"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0L2blHY8Lar2OPhzIj990yyqwItRKA18"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
