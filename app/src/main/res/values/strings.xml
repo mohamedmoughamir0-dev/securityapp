@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">QuizzApp_Security</string>
+    <string name="quiz_security">Quiz Security</string>
+    <string name="welcome">Bienvenue</string>
+    <string name="login_subtitle">Connectez-vous pour continuer</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Mot de passe</string>
+    <string name="login_btn">Se connecter</string>
+    <string name="no_account">Pas encore de compte ? S\'inscrire ici</string>
+
+    <string name="registration">Inscription</string>
+    <string name="register_subtitle">Créez votre compte gratuitement</string>
+    <string name="register_btn">S\'inscrire</string>
+    <string name="already_account">Déjà un compte ? Connectez-vous</string>
 </resources>
