@@ -5,9 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.quizzapp_security"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.quizzapp_security"
@@ -32,6 +30,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
 }
 
 dependencies {
@@ -48,6 +51,24 @@ dependencies {
 
     // Glide pour les images
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    
+    // GPS
+    implementation(libs.play.services.location)
+    
+    // CameraX
+    implementation(libs.camera.core)
+    implementation(libs.camera.camera2)
+    implementation(libs.camera.lifecycle)
+    implementation(libs.camera.view)
+    
+    // TFLite
+    implementation(libs.tensorflow.lite)
+    implementation(libs.tensorflow.lite.support)
+    
+    // Retrofit (Supabase)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp.logging)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

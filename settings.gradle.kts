@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "QuizzApp_Security"
+rootProject.name = "QuizzApp_Security_MOUGHAMIR"
 include(":app")
  
