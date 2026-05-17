@@ -40,31 +40,31 @@ public class TfLiteModule {
     public boolean analyzeImage(String imagePath) {
         if (interpreter == null) return false;
 
-        Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-        if (bitmap == null) return false;
+        try {
+            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+            if (bitmap == null) return false;
 
-        TensorImage tensorImage = new TensorImage(org.tensorflow.lite.DataType.FLOAT32);
-        tensorImage.load(bitmap);
+            TensorImage tensorImage = new TensorImage(org.tensorflow.lite.DataType.FLOAT32);
+            tensorImage.load(bitmap);
 
-        // Adaptation pour Teachable Machine (Normalisation -1 à 1 souvent utilisée)
-        ImageProcessor imageProcessor = new ImageProcessor.Builder()
-                .add(new ResizeOp(IMAGE_SIZE, IMAGE_SIZE, ResizeOp.ResizeMethod.BILINEAR))
-                .add(new NormalizeOp(127.5f, 127.5f)) 
-                .build();
+            ImageProcessor imageProcessor = new ImageProcessor.Builder()
+                    .add(new ResizeOp(IMAGE_SIZE, IMAGE_SIZE, ResizeOp.ResizeMethod.BILINEAR))
+                    .add(new NormalizeOp(127.5f, 127.5f))
+                    .build();
 
-        tensorImage = imageProcessor.process(tensorImage);
+            tensorImage = imageProcessor.process(tensorImage);
 
-        float[][] output = new float[1][2];
-        interpreter.run(tensorImage.getBuffer(), output);
+            float[][] output = new float[1][2];
+            interpreter.run(tensorImage.getBuffer(), output);
 
-        float scoreClass0 = output[0][0]; // Class 1 dans labels.txt
-        float scoreClass1 = output[0][1]; // Class 2 dans labels.txt
-
-        Log.d(TAG, "Analyse - Class 1: " + String.format("%.2f", scoreClass0) + " | Class 2: " + String.format("%.2f", scoreClass1));
-
-        // PAR DÉFAUT : On considère Class 2 (index 1) comme la triche.
-        // Si c'est l'inverse dans votre modèle, changez scoreClass1 par scoreClass0.
-        return scoreClass1 > 0.75f;
+            float scoreClass0 = output[0][0];
+            float scoreClass1 = output[0][1];
+            Log.d(TAG, "Analyse - Class 1: " + String.format("%.2f", scoreClass0) + " | Class 2: " + String.format("%.2f", scoreClass1));
+            return scoreClass1 > 0.75f;
+        } catch (Exception e) {
+            Log.e(TAG, "Erreur analyse image: " + e.getMessage());
+            return false;
+        }
     }
 
     public void close() {

@@ -13,7 +13,6 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -26,14 +25,19 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     packaging {
         jniLibs {
-            useLegacyPackaging = true
+            useLegacyPackaging = false
         }
+    }
+    buildFeatures {
+        mlModelBinding = true
     }
 }
 
@@ -49,22 +53,25 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-firestore")
 
-    // Glide pour les images
+    // Glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
-    
+
     // GPS
     implementation(libs.play.services.location)
-    
+
     // CameraX
     implementation(libs.camera.core)
     implementation(libs.camera.camera2)
     implementation(libs.camera.lifecycle)
     implementation(libs.camera.view)
-    
+
     // TFLite
     implementation(libs.tensorflow.lite)
     implementation(libs.tensorflow.lite.support)
-    
+
+    // ML Kit
+    implementation("com.google.mlkit:face-detection:16.1.7")
+
     // Retrofit (Supabase)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)

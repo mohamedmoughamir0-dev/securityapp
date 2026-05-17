@@ -89,8 +89,7 @@ public class Register extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(Register.this, "Compte créé avec succès", Toast.LENGTH_SHORT).show();
-                            // Correction : Redirection vers QuizActivity au lieu de Quiz1
-                            Intent intent = new Intent(Register.this, QuizActivity.class);
+                            Intent intent = new Intent(Register.this, FaceRegistrationActivity.class);
                             startActivity(intent);
                             finish();
                         } else {

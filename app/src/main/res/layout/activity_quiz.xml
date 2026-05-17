@@ -1,109 +1,247 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/quizRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_light"
-    android:padding="20dp">
+    android:background="#1A1A2E"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
 
-    <!-- Anti-cheat Alert -->
-    <TextView
-        android:id="@+id/tvAlert"
+    <!-- ── Top Bar ── -->
+    <LinearLayout
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFCDD2"
-        android:padding="8dp"
-        android:text="Alerte de sécurité détectée"
-        android:textColor="#B71C1C"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="#252540"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp">
 
-    <TextView
-        android:id="@+id/tvScore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Score: 0"
-        android:textColor="@color/primary_color"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvAlert" />
+        <!-- Score -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-    <Button
-        android:id="@+id/btnLogout"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Quitter"
-        android:textAllCaps="false"
-        android:textColor="#D32F2F"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvScore" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⭐"
+                android:textSize="15sp"
+                android:layout_marginEnd="6dp" />
 
+            <TextView
+                android:id="@+id/tvScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Compteur questions -->
+        <TextView
+            android:id="@+id/tvQuestionCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:background="#33FFFFFF"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="6dp"
+            android:text="1 / ?"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <!-- Switch micro -->
+        <Switch
+            android:id="@+id/switchMic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="🎙"
+            android:textColor="#AAAACC"
+            android:textSize="13sp" />
+
+        <!-- Bouton quitter -->
+        <ImageButton
+            android:id="@+id/btnLogout"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:background="#3D1F1F"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:tint="#FF6B6B"
+            android:padding="6dp" />
+    </LinearLayout>
+
+    <!-- ── Barre de progression ── -->
     <ProgressBar
         android:id="@+id/quizProgressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_height="5dp"
         android:max="100"
         android:progress="0"
         android:progressTint="@color/primary_color"
-        app:layout_constraintTop_toBottomOf="@+id/tvScore" />
+        android:progressBackgroundTint="#252540" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/questionCard"
+    <!-- ── Alerte anti-triche ── -->
+    <TextView
+        android:id="@+id/tvAlert"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="6dp"
-        app:layout_constraintTop_toBottomOf="@+id/quizProgressBar">
+        android:background="#B71C1C"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="⚠️  Alerte de sécurité détectée"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <!-- ── Contenu principal (scrollable) ── -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
-            <ImageView
-                android:id="@+id/ivQuestion"
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:scaleType="centerInside"
-                android:visibility="gone" />
-            <TextView
-                android:id="@+id/tvQuestion"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="100dp">
+
+            <!-- ── Carte Question ── -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/questionCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:text="Question..."
-                android:textColor="#263238"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="20dp"
+                app:cardBackgroundColor="#252540"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="22dp">
+
+                    <ImageView
+                        android:id="@+id/ivQuestion"
+                        android:layout_width="match_parent"
+                        android:layout_height="140dp"
+                        android:scaleType="centerInside"
+                        android:visibility="gone"
+                        android:layout_marginBottom="14dp" />
+
+                    <TextView
+                        android:id="@+id/tvQuestion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingMultiplier="1.5"
+                        android:text="Question..."
+                        android:textColor="#FFFFFF"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ── Option A ── -->
+            <Button
+                android:id="@+id/btnOp1"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="#252540"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textAllCaps="false"
+                android:gravity="center_vertical|start"
+                android:paddingStart="20dp"
+                app:cornerRadius="14dp"
+                app:icon="@drawable/badge_background"
+                app:iconTint="#6200EE"
+                app:iconPadding="12dp" />
+
+            <!-- ── Option B ── -->
+            <Button
+                android:id="@+id/btnOp2"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="#252540"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textAllCaps="false"
+                android:gravity="center_vertical|start"
+                android:paddingStart="20dp"
+                app:cornerRadius="14dp"
+                app:icon="@drawable/badge_background"
+                app:iconTint="#2979FF"
+                app:iconPadding="12dp" />
+
+            <!-- ── Option C ── -->
+            <Button
+                android:id="@+id/btnOp3"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="#252540"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textAllCaps="false"
+                android:gravity="center_vertical|start"
+                android:paddingStart="20dp"
+                app:cornerRadius="14dp"
+                app:icon="@drawable/badge_background"
+                app:iconTint="#FF6D00"
+                app:iconPadding="12dp" />
+
+            <!-- ── Option D ── -->
+            <Button
+                android:id="@+id/btnOp4"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:backgroundTint="#252540"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textAllCaps="false"
+                android:gravity="center_vertical|start"
+                android:paddingStart="20dp"
+                app:cornerRadius="14dp"
+                app:icon="@drawable/badge_background"
+                app:iconTint="#00BFA5"
+                app:iconPadding="12dp" />
+
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </ScrollView>
 
-    <Button android:id="@+id/btnOp1" android:layout_width="match_parent" android:layout_height="55dp" android:layout_marginTop="20dp" app:layout_constraintTop_toBottomOf="@+id/questionCard" android:backgroundTint="#2C3E50" android:textColor="#FFFFFF" app:cornerRadius="15dp" />
-    <Button android:id="@+id/btnOp2" android:layout_width="match_parent" android:layout_height="55dp" android:layout_marginTop="10dp" app:layout_constraintTop_toBottomOf="@+id/btnOp1" android:backgroundTint="#2C3E50" android:textColor="#FFFFFF" app:cornerRadius="15dp" />
-    <Button android:id="@+id/btnOp3" android:layout_width="match_parent" android:layout_height="55dp" android:layout_marginTop="10dp" app:layout_constraintTop_toBottomOf="@+id/btnOp2" android:backgroundTint="#2C3E50" android:textColor="#FFFFFF" app:cornerRadius="15dp" />
-    <Button android:id="@+id/btnOp4" android:layout_width="match_parent" android:layout_height="55dp" android:layout_marginTop="10dp" app:layout_constraintTop_toBottomOf="@+id/btnOp3" android:backgroundTint="#2C3E50" android:textColor="#FFFFFF" app:cornerRadius="15dp" />
-
-    <!-- Camera Preview (Petit retour visuel pour l'anti-triche) -->
+    <!-- ── Prévisualisation caméra (anti-triche) ── -->
     <androidx.cardview.widget.CardView
-        android:layout_width="100dp"
-        android:layout_height="130dp"
-        app:cardCornerRadius="10dp"
+        android:layout_width="72dp"
+        android:layout_height="96dp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="-108dp"
+        app:cardCornerRadius="12dp"
         app:cardElevation="8dp"
-        android:layout_margin="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:cardBackgroundColor="#252540">
+
         <androidx.camera.view.PreviewView
             android:id="@+id/previewView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
     </androidx.cardview.widget.CardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -1,6 +1,6 @@
 package com.example.quizzapp_security;
 
-public class Question {
+public class Question implements java.io.Serializable {
     private String question;
     private String option1;
     private String option2;

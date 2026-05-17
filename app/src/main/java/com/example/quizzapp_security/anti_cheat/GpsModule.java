@@ -16,23 +16,20 @@ public class GpsModule {
     private final OnLocationAlertListener listener;
     private final List<AllowedLocation> allowedLocations;
     private static final String TAG = "GpsModule";
+    
+    private int outOfZoneCount = 0;
+    private static final int ALERT_THRESHOLD = 2; 
 
     private static class AllowedLocation {
-        double lat;
-        double lng;
-        float radius;
-        String name;
-
+        double lat; double lng; float radius; String name;
         AllowedLocation(String name, double lat, double lng, float radius) {
-            this.name = name;
-            this.lat = lat;
-            this.lng = lng;
-            this.radius = radius;
+            this.name = name; this.lat = lat; this.lng = lng; this.radius = radius;
         }
     }
 
     public interface OnLocationAlertListener {
         void onOutsideZone(String details);
+        void onInsideZone(); 
     }
 
     public GpsModule(Context context, OnLocationAlertListener listener) {
@@ -40,12 +37,12 @@ public class GpsModule {
         this.listener = listener;
         this.allowedLocations = new ArrayList<>();
 
-        // Zone 1
-        allowedLocations.add(new AllowedLocation("Centre", 33.5731, -7.5898, 1000));
-        // Zone 2
-        allowedLocations.add(new AllowedLocation("École", 33.6000, -7.6000, 1000));
-        // Zone 3 (Mise à jour avec votre position réelle détectée)
-        allowedLocations.add(new AllowedLocation("Lieu 3 (Mise à jour)", 33.581435, -7.6334967, 1000));
+        // Coordonnées basées sur votre capture d'écran de l'émulateur
+        // Point 1 (Celui que vous avez tapé)
+        allowedLocations.add(new AllowedLocation("Point Actuel", 33.533984, -7.651264, 20000));
+        
+        // Point 2 (EMSI sauvegardé)
+        allowedLocations.add(new AllowedLocation("EMSI", 33.5814, -7.6335, 3000));
     }
 
     @SuppressLint("MissingPermission")
@@ -66,9 +63,6 @@ public class GpsModule {
     private void processLocation(Location location) {
         boolean isInsideAnyZone = false;
         float minDistance = Float.MAX_VALUE;
-        String closestZone = "";
-
-        Log.d(TAG, "Position détectée: Lat=" + location.getLatitude() + ", Lng=" + location.getLongitude());
 
         for (AllowedLocation allowed : allowedLocations) {
             float[] results = new float[1];
@@ -76,23 +70,23 @@ public class GpsModule {
                                    allowed.lat, allowed.lng, results);
             float distance = results[0];
 
-            Log.d(TAG, "Distance de " + allowed.name + ": " + (int)distance + "m (Rayon: " + allowed.radius + "m)");
-
             if (distance <= allowed.radius) {
                 isInsideAnyZone = true;
                 break;
             }
-            if (distance < minDistance) {
-                minDistance = distance;
-                closestZone = allowed.name;
-            }
+            if (distance < minDistance) minDistance = distance;
         }
 
-        if (!isInsideAnyZone) {
-            Log.w(TAG, "ALERTE: Utilisateur hors zone !");
-            listener.onOutsideZone("Hors zone. Distance min: " + (int)minDistance + "m de " + closestZone);
+        if (isInsideAnyZone) {
+            outOfZoneCount = 0;
+            Log.d(TAG, "Position OK. Distance: " + (int)minDistance + "m");
+            listener.onInsideZone(); 
         } else {
-            Log.d(TAG, "Position validée (dans une zone autorisée)");
+            outOfZoneCount++;
+            Log.w(TAG, "Hors zone! Distance: " + (int)minDistance + "m. Tentative: " + outOfZoneCount);
+            if (outOfZoneCount >= ALERT_THRESHOLD) {
+                listener.onOutsideZone("Hors zone (" + (int)minDistance + "m)");
+            }
         }
     }
 }

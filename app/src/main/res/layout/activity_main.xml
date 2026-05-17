@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
-    <!-- Image de fond -->
+    <!-- Fond -->
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,86 +17,268 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#80000000" />
+        android:background="#B0000000" />
 
-    <!-- Contenu en bas -->
-    <LinearLayout
+    <!-- ── Formulaire ── -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/formLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="28dp"
+            android:paddingTop="60dp"
+            android:paddingBottom="40dp"
+            android:minHeight="600dp">
+
+            <!-- Badge icône -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="24dp"
+                app:cardBackgroundColor="#252540"
+                app:cardElevation="6dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="🛡️"
+                    android:textSize="38sp" />
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Titre -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Quiz Security"
+                android:textColor="#FFFFFF"
+                android:textSize="34sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.04" />
+
+            <!-- Sous-titre -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="40dp"
+                android:gravity="center"
+                android:text="Testez vos connaissances en cybersécurité"
+                android:textColor="#CCFFFFFF"
+                android:textSize="13sp" />
+
+            <!-- Carte formulaire -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="20dp"
+                app:cardBackgroundColor="#CC1A1A2E"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <!-- Label Email -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Email"
+                        android:textColor="#AAAACC"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.08"
+                        android:layout_marginBottom="6dp" />
+
+                    <!-- Champ Email -->
+                    <EditText
+                        android:id="@+id/etEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginBottom="18dp"
+                        android:background="@drawable/edittext_rounded"
+                        android:hint="votre@email.com"
+                        android:inputType="textEmailAddress"
+                        android:paddingStart="16dp"
+                        android:textColor="#FFFFFF"
+                        android:textColorHint="#55FFFFFF"
+                        android:textSize="15sp" />
+
+                    <!-- Label Mot de passe -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Mot de passe"
+                        android:textColor="#AAAACC"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.08"
+                        android:layout_marginBottom="6dp" />
+
+                    <!-- Champ Mot de passe -->
+                    <EditText
+                        android:id="@+id/etPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:background="@drawable/edittext_rounded"
+                        android:hint="••••••••"
+                        android:inputType="textPassword"
+                        android:paddingStart="16dp"
+                        android:textColor="#FFFFFF"
+                        android:textColorHint="#55FFFFFF"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Carte erreur -->
+            <LinearLayout
+                android:id="@+id/errorCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="#CC3A1A1A"
+                android:padding="12dp"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⚠️"
+                    android:textSize="16sp"
+                    android:layout_marginEnd="10dp" />
+
+                <TextView
+                    android:id="@+id/tvError"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#FF6B6B"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <!-- Bouton Se connecter -->
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:backgroundTint="@color/primary_color"
+                android:text="SE CONNECTER"
+                android:textAllCaps="true"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.08"
+                android:layout_marginBottom="24dp"
+                app:cornerRadius="14dp" />
+
+            <!-- Séparateur -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="20dp">
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="#33FFFFFF" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="14dp"
+                    android:text="ou"
+                    android:textColor="#66FFFFFF"
+                    android:textSize="13sp" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="#33FFFFFF" />
+            </LinearLayout>
+
+            <!-- Lien inscription -->
+            <TextView
+                android:id="@+id/tvToRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Pas encore de compte ? S'inscrire →"
+                android:textColor="#BBBBFF"
+                android:textStyle="bold"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- ── Overlay Succès ── -->
+    <LinearLayout
+        android:id="@+id/successLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="32dp"
-        android:paddingBottom="48dp">
+        android:gravity="center"
+        android:background="#D0000000"
+        android:padding="40dp"
+        android:visibility="gone">
 
-        <!-- Titre -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <androidx.cardview.widget.CardView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
-            android:text="Quiz Security"
-            android:textColor="@color/white"
-            android:textSize="36sp"
-            android:textStyle="bold" />
-
-        <!-- Sous-titre -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="40dp"
-            android:text="Testez vos connaissances en cybersécurité 🔐"
-            android:textColor="#CCFFFFFF"
-            android:textSize="14sp" />
-
-        <!-- Email -->
-        <EditText
-            android:id="@+id/etEmail"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/edittext_rounded"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:paddingStart="15dp"
-            android:textColor="@color/white"
-            android:textColorHint="#99FFFFFF" />
-
-        <!-- Mot de passe -->
-        <EditText
-            android:id="@+id/etPassword"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
             android:layout_marginBottom="24dp"
-            android:background="@drawable/edittext_rounded"
-            android:hint="Mot de passe"
-            android:inputType="textPassword"
-            android:paddingStart="15dp"
-            android:textColor="@color/white"
-            android:textColorHint="#99FFFFFF" />
+            app:cardCornerRadius="28dp"
+            app:cardBackgroundColor="#252540"
+            app:cardElevation="8dp">
 
-        <!-- Bouton -->
-        <Button
-            android:id="@+id/btnLogin"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:backgroundTint="@color/white"
-            android:text="SE CONNECTER"
-            android:textAllCaps="true"
-            android:textColor="@color/primary_color"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:cornerRadius="12dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="✅"
+                android:textSize="46sp" />
 
-        <!-- Lien inscription -->
+        </androidx.cardview.widget.CardView>
+
         <TextView
-            android:id="@+id/tvToRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:text="Pas encore de compte ? S'inscrire →"
-            android:textColor="#CCFFFFFF" />
+            android:text="Connexion réussie !"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Redirection en cours…"
+            android:textColor="#AAAACC"
+            android:textSize="14sp"
+            android:layout_marginBottom="28dp" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/primary_color" />
 
     </LinearLayout>
 
